@@ -1,4 +1,4 @@
-package com.example.smartjournalling.Backend.model;
+package com.example.smartjournalling.backend.model;
 
 public class JournalEntry {
     String userid;

@@ -1,8 +1,9 @@
-package com.example.smartjournalling.Backend.repository;
+package com.example.smartjournalling.backend.repository;
 
-import com.example.smartjournalling.Backend.model.JournalEntry;
 import java.io.*;
 import java.util.*;
+
+import com.example.smartjournalling.backend.model.JournalEntry;
 
 public class JournalRepository {
 

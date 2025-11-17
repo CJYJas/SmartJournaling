@@ -1,7 +1,8 @@
-package com.example.smartjournalling.Backend.service;
+package com.example.smartjournalling.backend.service;
 
-import com.example.smartjournalling.Backend.model.JournalEntry;
 import org.springframework.stereotype.Service;
+
+import com.example.smartjournalling.backend.model.JournalEntry;
 
 import java.io.*;
 import java.time.LocalDate;

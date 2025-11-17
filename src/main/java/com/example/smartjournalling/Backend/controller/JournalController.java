@@ -1,9 +1,10 @@
-package com.example.smartjournalling.Backend.controller;
+package com.example.smartjournalling.backend.controller;
 
-import com.example.smartjournalling.Backend.model.JournalEntry;
-import com.example.smartjournalling.Backend.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.smartjournalling.backend.model.JournalEntry;
+import com.example.smartjournalling.backend.service.JournalService;
 
 import java.time.LocalDate;
 import java.util.List;

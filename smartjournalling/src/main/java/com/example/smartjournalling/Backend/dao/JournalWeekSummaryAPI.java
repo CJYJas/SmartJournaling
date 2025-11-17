@@ -20,7 +20,7 @@ public class JournalWeekSummaryAPI {
     private final API api = new API();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${BEARER_TOKEN}")
+     @Value("${huggingface.token}")
     private String bearerToken;
     // Hugging Face’s current sentiment-analysis pipeline
     private static final String API_URL = "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english";

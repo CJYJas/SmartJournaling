@@ -13,7 +13,7 @@ public class SentimentAnalysisDAO {
     private final API api = new API();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${BEARER_TOKEN}")
+    @Value("${huggingface.token}")
     private String bearerToken;
 
     // Hugging Face’s current sentiment-analysis pipeline

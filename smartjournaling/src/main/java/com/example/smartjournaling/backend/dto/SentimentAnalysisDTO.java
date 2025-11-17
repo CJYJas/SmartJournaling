@@ -1,4 +1,4 @@
-package com.example.smartjournalling.Backend.dto;
+package com.example.smartjournaling.backend.dto;
 
 public class SentimentAnalysisDTO {
     private final String sentimentlabel;

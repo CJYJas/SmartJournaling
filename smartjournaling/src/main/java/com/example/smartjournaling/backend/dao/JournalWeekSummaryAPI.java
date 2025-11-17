@@ -1,10 +1,10 @@
-package com.example.smartjournalling.Backend.dao;
+package com.example.smartjournaling.backend.dao;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.smartjournalling.Backend.dto.JournalWeekSummaryDTO;
-import com.example.smartjournalling.Backend.model.JournalModel;
-import com.example.smartjournalling.Backend.util.API;
+import com.example.smartjournaling.backend.dto.JournalWeekSummaryDTO;
+import com.example.smartjournaling.backend.model.JournalModel;
+import com.example.smartjournaling.backend.util.API;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Value;
 import java.util.List;

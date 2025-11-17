@@ -1,12 +1,12 @@
-package com.example.smartjournalling.Backend.controller;
+package com.example.smartjournaling.backend.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.smartjournalling.Backend.model.*;
-import com.example.smartjournalling.Backend.service.JournalSentimentService;
+import com.example.smartjournaling.backend.model.*;
+import com.example.smartjournaling.backend.service.JournalSentimentService;
 
 import java.util.Map;
 

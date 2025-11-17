@@ -1,15 +1,15 @@
-package com.example.smartjournalling.Backend.service;
+package com.example.smartjournaling.backend.service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.springframework.stereotype.Service;
-import com.example.smartjournalling.Backend.dao.*;
-import com.example.smartjournalling.Backend.repository.*;
-import com.example.smartjournalling.Backend.dto.*;
-import com.example.smartjournalling.Backend.model.*;
-import com.example.smartjournalling.Backend.repository.*;
+import com.example.smartjournaling.backend.dao.*;
+import com.example.smartjournaling.backend.repository.*;
+import com.example.smartjournaling.backend.dto.*;
+import com.example.smartjournaling.backend.model.*;
+import com.example.smartjournaling.backend.repository.*;
 import java.io.*;
 
 @Service

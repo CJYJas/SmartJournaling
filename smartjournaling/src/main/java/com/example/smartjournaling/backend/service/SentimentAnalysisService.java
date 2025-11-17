@@ -1,12 +1,12 @@
-package com.example.smartjournalling.Backend.service;
+package com.example.smartjournaling.backend.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.example.smartjournalling.Backend.model.*;
-import com.example.smartjournalling.Backend.dto.*;
-import com.example.smartjournalling.Backend.model.*;
-import com.example.smartjournalling.Backend.dao.*;
-import com.example.smartjournalling.Backend.repository.*;
+import com.example.smartjournaling.backend.model.*;
+import com.example.smartjournaling.backend.dto.*;
+import com.example.smartjournaling.backend.model.*;
+import com.example.smartjournaling.backend.dao.*;
+import com.example.smartjournaling.backend.repository.*;
 
 @Service
 public class SentimentAnalysisService {

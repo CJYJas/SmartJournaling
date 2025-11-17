@@ -1,4 +1,4 @@
-package com.example.smartjournalling.Backend.dto;
+package com.example.smartjournaling.backend.dto;
 
 public class JournalWeekSummaryDTO {
     private final String label;

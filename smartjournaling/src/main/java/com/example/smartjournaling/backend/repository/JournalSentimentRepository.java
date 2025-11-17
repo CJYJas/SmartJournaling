@@ -1,9 +1,9 @@
-package com.example.smartjournalling.Backend.repository;
+package com.example.smartjournaling.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.smartjournalling.Backend.model.JournalSentimentModel;
+import com.example.smartjournaling.backend.model.JournalSentimentModel;
 
 import java.util.*;
 

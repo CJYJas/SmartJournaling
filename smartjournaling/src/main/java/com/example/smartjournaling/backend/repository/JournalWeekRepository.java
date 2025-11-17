@@ -1,4 +1,4 @@
-package com.example.smartjournalling.Backend.repository;
+package com.example.smartjournalling.backend.repository;
 
 import org.springframework.stereotype.Repository;
 

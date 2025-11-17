@@ -1,4 +1,4 @@
-package com.example.smartjournalling.Backend.util;
+package com.example.smartjournaling.backend.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;

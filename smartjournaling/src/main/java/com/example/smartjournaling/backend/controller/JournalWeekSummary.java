@@ -1,9 +1,9 @@
-package com.example.smartjournalling.Backend.controller;
+package com.example.smartjournaling.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.smartjournalling.Backend.model.*;
-import com.example.smartjournalling.Backend.service.JournalSentimentService;
+import com.example.smartjournalling.backend.service.JournalSentimentService;
 
 import java.util.Map;
 

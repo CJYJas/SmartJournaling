@@ -1,11 +1,11 @@
-package com.example.smartjournalling.Backend.dao;
+package com.example.smartjournaling.backend.dao;
 
 import org.springframework.stereotype.Repository;
-import com.example.smartjournalling.Backend.util.API;
+import com.example.smartjournaling.backend.util.API;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import com.example.smartjournalling.Backend.dto.SentimentAnalysisDTO;
+import com.example.smartjournalng.backend.dto.SentimentAnalysisDTO;
 
 
 @Repository

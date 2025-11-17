@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.example.smartjournaling.backend.dto.JournalWeekSummaryDTO;
 import com.example.smartjournaling.backend.model.JournalModel;
 import com.example.smartjournaling.backend.util.API;
+
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Value;
 import java.util.List;

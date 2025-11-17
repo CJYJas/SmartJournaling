@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SmartjournallingApplication {
+public class SmartjournalingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmartjournallingApplication.class, args);
+		SpringApplication.run(SmartjournalingApplication.class, args);
 	}
 
 }

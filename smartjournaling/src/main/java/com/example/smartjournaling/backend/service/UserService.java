@@ -1,11 +1,11 @@
-package com.example.smartjounaling.backend.service;
+package com.example.smartjournaling.backend.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.smartjounaling.backend.model.User;
-import com.example.smartjounaling.backend.repository.UserRepository;
+import com.example.smartjournaling.backend.model.User;
+import com.example.smartjournaling.backend.repository.UserRepository;
 
 @Service
 public class UserService {

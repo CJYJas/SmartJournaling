@@ -1,8 +1,8 @@
-package com.example.smartjounaling.backend.controller;
+package com.example.smartjournaling.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.smartjounaling.backend.service.UserService;
+import com.example.smartjournaling.backend.service.UserService;
 
 @RestController
 @RequestMapping("/user")

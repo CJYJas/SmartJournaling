@@ -1,4 +1,4 @@
-package com.example.smartjounaling.backend.model;
+package com.example.smartjournaling.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.example.smartjounaling.backend;
+package com.example.smartjounaling;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

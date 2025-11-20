@@ -1,0 +1,15 @@
+com\example\smartjournaling\backend\controller\WeatherController.class
+com\example\smartjournaling\backend\dto\WeatherForecastDTO.class
+com\example\smartjournaling\SmartApplication.class
+com\example\smartjournaling\backend\controller\WeatherWeekSummaryController.class
+com\example\smartjournaling\backend\model\WeatherModel.class
+com\example\smartjournaling\backend\util\API.class
+com\example\smartjournaling\backend\dto\SummaryDTO.class
+com\example\smartjournaling\backend\repository\WeatherWeekSummaryRepository.class
+com\example\smartjournaling\backend\service\WeatherService.class
+com\example\smartjournaling\backend\service\WeatherWeekSummaryService.class
+com\example\smartjournaling\backend\util\EnvLoader.class
+com\example\smartjournaling\backend\dao\WeatherApiDAO.class
+com\example\smartjournaling\backend\model\WeatherWeekSummaryModel.class
+com\example\smartjournaling\backend\repository\WeatherRepository.class
+com\example\smartjournaling\backend\dto\WeatherForecastDTO$Location.class

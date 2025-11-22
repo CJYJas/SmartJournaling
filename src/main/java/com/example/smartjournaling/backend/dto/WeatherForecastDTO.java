@@ -8,58 +8,27 @@ public class WeatherForecastDTO {
     private Location location;
     private String date;
 
-    @JsonProperty("morningForecast")
+    @JsonProperty("morning_forecast")
     private String morningForecast;
 
-    @JsonProperty("afternoonForecast")
+    @JsonProperty("afternoon_forecast")
     private String afternoonForecast;
 
-    @JsonProperty("nightForecast")
+    @JsonProperty("night_forecast")
     private String nightForecast;
 
-    @JsonProperty("summaryForecast")
+    @JsonProperty("summary_forecast")
     private String summaryForecast;
 
-    @JsonProperty("summaryWhen")
+    @JsonProperty("summary_when")
     private String summaryWhen;
 
-    @JsonProperty("minTemp")
+    @JsonProperty("min_temp")
     private Double minTemp;
 
-    @JsonProperty("maxTemp")
+    @JsonProperty("max_temp")
     private Double maxTemp;
 
-    // ---- Inner class Location ----
-    public static class Location {
-        @JsonProperty("location_id")
-        private String locationId;
-
-        @JsonProperty("location_name")
-        private String locationName;
-
-        public Location() {
-            this.locationId = "101";
-            this.locationName = "Kuala Lumpur";
-        }
-
-        public String getLocationId() {
-            return locationId;
-        }
-
-        public void setLocationId(String locationId) {
-            this.locationId = locationId;
-        }
-
-        public String getLocationName() {
-            return locationName;
-        }
-
-        public void setLocationName(String locationName) {
-            this.locationName = locationName;
-        }
-    }
-
-    // ---- Getters & Setters for DTO ----
     public Location getLocation() {
         return location;
     }
@@ -130,5 +99,35 @@ public class WeatherForecastDTO {
 
     public void setMaxTemp(Double maxTemp) {
         this.maxTemp = maxTemp;
+    }
+
+    // ---- Inner class ----
+    public static class Location {
+
+        @JsonProperty("location_id")
+        private String locationId;
+
+        @JsonProperty("location_name")
+        private String locationName;
+
+        // NO DEFAULT VALUES HERE
+        public Location() {
+        }
+
+        public String getLocationId() {
+            return locationId;
+        }
+
+        public void setLocationId(String locationId) {
+            this.locationId = locationId;
+        }
+
+        public String getLocationName() {
+            return locationName;
+        }
+
+        public void setLocationName(String locationName) {
+            this.locationName = locationName;
+        }
     }
 }

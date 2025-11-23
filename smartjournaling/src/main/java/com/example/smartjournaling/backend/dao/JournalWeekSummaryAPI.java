@@ -3,7 +3,7 @@ package com.example.smartjournaling.backend.dao;
 import org.springframework.stereotype.Repository;
 
 import com.example.smartjournaling.backend.dto.JournalWeekSummaryDTO;
-import com.example.smartjournaling.backend.model.JournalModel;
+import com.example.smartjournaling.backend.model.JournalEntry;
 import com.example.smartjournaling.backend.util.API;
 
 import java.util.ArrayList;
@@ -21,21 +21,22 @@ public class JournalWeekSummaryAPI {
     private final API api = new API();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-     @Value("${huggingface.token}")
+    @Value("${huggingface.token}")
     private String bearerToken;
+
     // Hugging Face’s current sentiment-analysis pipeline
     private static final String API_URL = "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english";
 ;
     
 
-    public JournalWeekSummaryDTO  getSentiment(List<JournalModel> last7days){
+    public JournalWeekSummaryDTO  getSentiment(List<JournalEntry> last7days){
         if (last7days == null || last7days.isEmpty()) {
             return new JournalWeekSummaryDTO("NO_DATA", 0.0);
         }
 
         List<JournalWeekSummaryDTO> dailyResults = new ArrayList<>();
         System.out.println("🟢 Starting sentiment analysis for last 7 days...");
-        for (JournalModel entry : last7days) {
+        for (JournalEntry entry : last7days) {
             try{
                 //Request body
 

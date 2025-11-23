@@ -20,7 +20,7 @@ public class UserController {
         return service.signup(email, displayName, password);
     }
 
-    @PostMapping("/login")
+   @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
         return service.login(email, password);
     }

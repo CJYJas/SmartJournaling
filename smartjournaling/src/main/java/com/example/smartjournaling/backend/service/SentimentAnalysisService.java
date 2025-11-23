@@ -24,14 +24,14 @@ public class SentimentAnalysisService {
     }
 
     public SentimentAnalysisModel getSentiment (String email, String date) {
-        List<JournalModel> todaysEntries = JournalWeekRepository.findByEmailAndDate(email, date);
+        List<JournalEntry> todaysEntries = JournalWeekRepository.findByEmailAndDate(email, date);
 
         if (todaysEntries.isEmpty()) {
             throw new RuntimeException("No journal entry found for user " + email + " on " + date);
         }
 
         // Assuming only one entry per user per date:
-        JournalModel entry = todaysEntries.get(0);
+        JournalEntry entry = todaysEntries.get(0);
 
         SentimentAnalysisDTO sentiment = SentimentAnalysisDAO.analyzeSentiment(entry.getContent());
 

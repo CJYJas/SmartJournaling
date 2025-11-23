@@ -9,7 +9,6 @@ import com.example.smartjournaling.backend.dao.*;
 import com.example.smartjournaling.backend.repository.*;
 import com.example.smartjournaling.backend.dto.*;
 import com.example.smartjournaling.backend.model.*;
-import com.example.smartjournaling.backend.repository.*;
 import java.io.*;
 
 @Service
@@ -36,7 +35,7 @@ public class JournalSentimentService {
         String weekStart = monday.format(DateTimeFormatter.ISO_LOCAL_DATE);
         String weekEnd = sunday.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
-        List<JournalModel> last7Days = JournalWeekRepository.findByEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
+        List<JournalEntry> last7Days = JournalWeekRepository.findByEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
         System.out.println("📘 Found " + last7Days.size() + " journal entries for " + email);
 
          // 2️⃣ Call your AI API to get weekly sentiment

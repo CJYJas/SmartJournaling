@@ -17,6 +17,7 @@ public class SentimentAnalysisDAO {
     @Value("${huggingface.token}")
     private String bearerToken;
 
+
     // Hugging Face’s current sentiment-analysis pipeline
     private static final String API_URL = "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english";
 

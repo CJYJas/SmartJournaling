@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.smartjournaling.backend.model.*;
-import com.example.smartjournaling.backend.service.JournalSentimentService;
+import com.example.smartjournaling.backend.service.SentimentAnalysisService;
 
 import java.util.Map;
 

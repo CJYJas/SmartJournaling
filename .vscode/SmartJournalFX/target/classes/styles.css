@@ -1,0 +1,216 @@
+.root {
+  /* Light Theme Colors replicating app/globals.css */
+  -color-background: #ffffff;
+  -color-foreground: #160419;
+  -color-card: #efdffd;
+  -color-card-foreground: #b594e6;
+  -color-primary: #af9cf3;
+  -color-primary-foreground: #ffffff;
+  -color-input: #f8ecff;
+  -color-border: #e9e0f1;
+
+  -fx-font-family: "Arial", sans-serif;
+  -fx-font-size: 14px;
+}
+
+/* Magical Gradient Background */
+.magical-gradient {
+  -fx-background-color: linear-gradient(to bottom right, #9ba9ea, #f093fb, #97cdfc);
+}
+
+/* Typography */
+.header-title {
+  -fx-font-size: 36px;
+  -fx-font-weight: bold;
+  -fx-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+.header-subtitle {
+  -fx-font-size: 16px;
+  -fx-fill: white;
+  -fx-opacity: 0.9;
+  -fx-font-style: italic;
+}
+
+/* Card Component */
+.card {
+  -fx-background-color: -color-input;
+  -fx-background-radius: 15;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
+  -fx-padding: 30;
+  -fx-alignment: center;
+}
+
+.card-title {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-fill: #553c7b;
+}
+
+.card-description {
+  -fx-font-size: 12px;
+  -fx-fill: #888888;
+}
+
+/* Input Fields */
+.text-field,
+.password-field {
+  -fx-background-color: white;
+  -fx-background-radius: 20;
+  -fx-border-width: 0;
+  -fx-padding: 10;
+  -fx-text-fill: -color-foreground;
+}
+
+.text-field:focused,
+.password-field:focused {
+  -fx-border-color: -color-primary;
+  -fx-border-width: 1;
+}
+
+/* Buttons */
+.button-primary {
+  -fx-background-color: -color-card-foreground;
+  -fx-text-fill: -color-primary-foreground;
+  -fx-background-radius: 20;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-padding: 10 20;
+}
+
+.button-primary:hover {
+  -fx-background-color: derive(-color-card-foreground, -10%);
+}
+
+.button-secondary {
+  -fx-background-color: white;
+  -fx-text-fill: -color-primary;
+  -fx-background-radius: 20;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-padding: 10 20;
+}
+
+/* Dashboard Elements */
+.weather-bar {
+  -fx-background-color: rgba(255, 255, 255, 0.25);
+  -fx-background-radius: 0 0 15 15;
+  -fx-padding: 15 20;
+}
+
+.menu-button {
+  -fx-background-color: rgba(255, 255, 255, 0.8);
+  -fx-background-radius: 15;
+  -fx-padding: 20;
+  -fx-cursor: hand;
+  -fx-alignment: center;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+.menu-button:hover {
+  -fx-background-color: white;
+  -fx-scale-x: 1.02;
+  -fx-scale-y: 1.02;
+}
+
+/* Added styles for Journal Page */
+.back-button {
+  -fx-background-color: rgba(255, 255, 255, 0.3);
+  -fx-text-fill: white;
+  -fx-background-radius: 8;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-padding: 8 16;
+  -fx-border-width: 0;
+}
+
+.back-button:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+.journal-sidebar {
+  -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.date-list {
+  -fx-background-color: transparent;
+  -fx-border-width: 0;
+}
+
+.date-list .list-cell {
+  -fx-background-color: rgba(255, 255, 255, 0.2);
+  -fx-text-fill: white;
+  -fx-padding: 10;
+  -fx-background-radius: 8;
+  -fx-font-weight: bold;
+}
+
+.date-list .list-cell:selected {
+  -fx-background-color: rgba(255, 255, 255, 0.5);
+  -fx-text-fill: #6a4c93;
+}
+
+.date-list .list-cell:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.35);
+}
+
+.entry-view {
+  -fx-background-color: transparent;
+}
+
+.smart-widget {
+  -fx-background-color: rgba(255, 255, 255, 0.85);
+  -fx-background-radius: 12;
+  -fx-padding: 15;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+  -fx-pref-width: 180;
+}
+
+.entry-card {
+  -fx-background-color: rgba(255, 255, 255, 0.9);
+  -fx-background-radius: 15;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
+  -fx-min-width: 600;
+  -fx-min-height: 400;
+}
+
+.entry-textarea {
+  -fx-background-color: white;
+  -fx-background-radius: 10;
+  -fx-border-color: -color-border;
+  -fx-border-radius: 10;
+  -fx-border-width: 1;
+  -fx-padding: 15;
+  -fx-font-size: 13px;
+  -fx-text-fill: -color-foreground;
+}
+
+.entry-textarea:focused {
+  -fx-border-color: -color-primary;
+  -fx-border-width: 2;
+}
+
+/* Added styles for Weekly Summary Page */
+.summary-stat-card {
+  -fx-background-color: rgba(255, 255, 255, 0.85);
+  -fx-background-radius: 12;
+  -fx-padding: 20;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.timeline-container {
+  -fx-background-color: rgba(255, 255, 255, 0.15);
+  -fx-background-radius: 15;
+  -fx-padding: 20;
+}
+
+.mood-day-card {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.weather-card {
+  -fx-background-color: rgba(255, 255, 255, 0.75);
+  -fx-background-radius: 10;
+  -fx-padding: 12;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0, 0, 2);
+}

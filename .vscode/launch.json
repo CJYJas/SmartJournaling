@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "com.example.smartjournaling.App",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "SmartjournalingApplication",
             "request": "launch",
             "mainClass": "com.example.smartjournaling.SmartjournalingApplication",

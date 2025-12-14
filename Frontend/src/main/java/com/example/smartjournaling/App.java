@@ -1,6 +1,13 @@
 package com.example.smartjournaling;
 
-import com.example.smartjournaling.frontend.*;
+import com.example.smartjournaling.frontend.ApiClient;
+import com.example.smartjournaling.frontend.JournalPage;
+import com.example.smartjournaling.frontend.Login;
+import com.example.smartjournaling.frontend.Main;
+import com.example.smartjournaling.frontend.Signup;
+import com.example.smartjournaling.frontend.WeeklySummaryPage;
+import com.example.smartjournaling.frontend.Welcome;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -86,3 +93,4 @@ public class App extends Application {
         stage.setScene(scene);
     }
 }
+

@@ -7,9 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ApiClient {
     private static final String BASE_URL = "http://localhost:8080"; 

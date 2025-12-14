@@ -1,5 +1,0 @@
-Weekly Sentiment Summary for: user1@example.com
-Week Start: 2025-11-17
-Sentiment Label: POSITIVE
-Sentiment Score: 0.9998801946640015
---------------------------------------------------

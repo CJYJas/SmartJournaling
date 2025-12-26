@@ -23,3 +23,13 @@ Week Start: 2025-12-08
 Sentiment Label: POSITIVE
 Sentiment Score: 0.9998168349266052
 --------------------------------------------------
+Weekly Sentiment Summary for: Abu
+Week Start: 2025-12-22
+Sentiment Label: ERROR
+Sentiment Score: 0.0
+--------------------------------------------------
+Weekly Sentiment Summary for: Abu
+Week Start: 2025-12-22
+Sentiment Label: POSITIVE
+Sentiment Score: 0.9998806715011597
+--------------------------------------------------

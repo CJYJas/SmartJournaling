@@ -9,7 +9,7 @@ This project is developed for **WIX1002 Fundamentals of Programming** and fulfil
 
 ---
 
-## Objectives
+## 1. Objectives
 
 - Encourage consistent journaling habits  
 - Increase emotional self-awareness through mood tracking  
@@ -18,7 +18,7 @@ This project is developed for **WIX1002 Fundamentals of Programming** and fulfil
 
 ---
 
-## Technology Stack
+## 2. Technology Stack
 
 | Layer | Technology |
 |-----|-----------|
@@ -32,7 +32,7 @@ This project is developed for **WIX1002 Fundamentals of Programming** and fulfil
 
 ---
 
-## Project Structure
+## 3. Project Structure
 
 ```
 SmartJournaling-main/
@@ -62,7 +62,7 @@ SmartJournaling-main/
 
 ---
 
-## Implemented Features 
+## 4. Implemented Features 
 
 ### User Authentication and Management
 - User registration and login
@@ -94,7 +94,7 @@ SmartJournaling-main/
 
 ---
 
-## Extra Features 
+## 5. Extra Features 
 
 ### Graphical User Interface (GUI)
 * Clean, user-friendly interface using JavaFX
@@ -119,7 +119,7 @@ SmartJournaling-main/
 
 ---
 
-## How to Run
+## 6. How to Run
 
 ### Prerequisites
 - Java JDK 17+
@@ -145,13 +145,13 @@ mvn javafx:run
 
 ---
 
-## SDG Alignment
+## 7. SDG Alignment
 
 Supports **SDG 3: Good Health and Well-Being** through emotional awareness and reflection.
 
 ---
 
-## Special Thanks
+## 8. Special Thanks
 
 We would like to extend our gratitude to:
 

@@ -31,14 +31,31 @@ public class ApiClient {
         }
     }
 
+    // --- Weather Endpoints ---
+    
+    /**
+     * Fetches the full JSON response for the latest weather.
+     * Used by Welcome.java to extract locationName and summaryForecast.
+     */
+    public String getLatestWeatherData(String location) {
+        try {
+            String endpoint = "/weather/latest?location=" + URLEncoder.encode(location, StandardCharsets.UTF_8);
+            return sendGetRequest(endpoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Fetches weather data for a specific date from the database.
+     * Targets: GET /weather/by-date?location=...&date=...
+     */
     public String getWeatherByDate(String location, String date) {
         try {
             String encodedLocation = URLEncoder.encode(location, StandardCharsets.UTF_8);
             String encodedDate = URLEncoder.encode(date, StandardCharsets.UTF_8);
-            
-            // Constructing the URL for the database lookup endpoint
             String endpoint = "/weather/by-date?location=" + encodedLocation + "&date=" + encodedDate;
-            
             return sendGetRequest(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,20 +63,21 @@ public class ApiClient {
         }
     }
 
-    // --- Weather Endpoints ---
+    /**
+     * Legacy method: Fetches only the summary forecast string.
+     */
     public String getWeather(String location) {
         try {
-            String endpoint = "/weather/latest?location=" + URLEncoder.encode(location, StandardCharsets.UTF_8);
-            String json = sendGetRequest(endpoint);
-            
-            // Basic JSON parsing to extract "summary_forecast"
+            String json = getLatestWeatherData(location);
+            // Basic JSON parsing to extract "summary_forecast" or "summaryForecast"
             String searchKey = "\"summary_forecast\"";
             int startIndex = json.indexOf(searchKey);
+            if (startIndex == -1) startIndex = json.indexOf("\"summaryForecast\"");
+            
             if (startIndex != -1) {
                 int valueStart = json.indexOf(":", startIndex) + 1;
                 int valueEnd = json.indexOf(",", valueStart);
                 if (valueEnd == -1) valueEnd = json.indexOf("}", valueStart);
-                
                 return json.substring(valueStart, valueEnd).replace("\"", "").trim();
             }
             return "Sunny"; 
@@ -68,21 +86,7 @@ public class ApiClient {
         }
     }
     
-    // --- Weather History Endpoint (Used for Weekly Summary) ---
-    // NOTE: This endpoint is still called get, but it's now targeting the correct controller path.
-    public String getWeatherHistory(String location) {
-        try {
-            // FIX: This method will now hit the new controller endpoint /weather/weekSummary
-            // Since the controller provided by the user does not accept parameters, we ignore `location` for now.
-            String endpoint = "/weather/weekSummary";
-            return sendGetRequest(endpoint);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error: Weather history connection failed";
-        }
-    }
-
-    // NEW: Method specifically for the user's weather summary controller (no params)
+    // --- Weather Summary Endpoint ---
     public String getWeeklyWeatherSummary() {
         try {
             String endpoint = "/weather/weekSummary";
@@ -107,10 +111,8 @@ public class ApiClient {
     public String addOrEditTodayJson(String email, String date, String content) {
         try {
             String escapedContent = escapeJsonValue(content);
-            
             String json = String.format("{\"email\":\"%s\",\"date\":\"%s\",\"content\":\"%s\"}",
                     email, date, escapedContent);
-            
             return sendJsonPostRequest("/journal/today", json);
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +121,6 @@ public class ApiClient {
     }
     
     // --- Sentiment Endpoints ---
-    // This is the single-day POST endpoint that the Journal Page uses, and the Timeline must now use 7 times.
     public String getSentimentAnalysis(String email, String date) {
         try {
             String json = String.format("{\"email\":\"%s\",\"date\":\"%s\"}", email, date);
@@ -150,9 +151,6 @@ public class ApiClient {
             return "Error: Weekly sentiment retrieve failed";
         }
     }
-    
-    // NOTE: Removed the unused bulk method getDailyMoodsForWeek(email, dates)
-    
 
     // --- HTTP Helpers ---
     private String escapeJsonValue(String value) {

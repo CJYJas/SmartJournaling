@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping; //Spring injects 
 import org.springframework.web.bind.annotation.RequestParam;//API returns HTTP response
 import org.springframework.web.bind.annotation.RestController;//link URLs to controller methods
 
-import com.example.smartjournaling.backend.dto.SummaryDTO;
 import com.example.smartjournaling.backend.model.WeatherModel;
 import com.example.smartjournaling.backend.service.WeatherService;
 
@@ -21,16 +20,12 @@ public class WeatherController {
     private WeatherService weatherService; // Inject WeatherService to call its methods
 
     @GetMapping("/latest") // Handle GET requests to /weather/latest
-
-    public ResponseEntity<SummaryDTO> getLatestWeather(@RequestParam String location) {
-        // Call service to fetch and save today's weather for the given location
+    public ResponseEntity<WeatherModel> getLatestWeather(@RequestParam String location) {
         WeatherModel entity = weatherService.fetchAndSaveTodayWeather(location);
-        if (entity == null)
-            return ResponseEntity.notFound().build(); // Return 404 if no data
+        if (entity == null) return ResponseEntity.notFound().build();
 
-        // Create DTO from entity's summary forecast
-        SummaryDTO summaryDTO = new SummaryDTO(entity.getSummaryForecast());
-        return ResponseEntity.ok(summaryDTO); // Return 200 OK with DTO
+        // Sends the full model including the locationName field
+        return ResponseEntity.ok(entity); 
     }
 
    @GetMapping("/by-date")

@@ -31,6 +31,21 @@ public class ApiClient {
         }
     }
 
+    public String getWeatherByDate(String location, String date) {
+        try {
+            String encodedLocation = URLEncoder.encode(location, StandardCharsets.UTF_8);
+            String encodedDate = URLEncoder.encode(date, StandardCharsets.UTF_8);
+            
+            // Constructing the URL for the database lookup endpoint
+            String endpoint = "/weather/by-date?location=" + encodedLocation + "&date=" + encodedDate;
+            
+            return sendGetRequest(endpoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: Weather database connection failed";
+        }
+    }
+
     // --- Weather Endpoints ---
     public String getWeather(String location) {
         try {

@@ -34,11 +34,6 @@ public class JournalSentimentService {
     this.JournalWeekSummaryAPI = JournalWeekSummaryAPI;
     }
 
-    // --- NEW METHOD: READ EXISTING SENTIMENT FOR CURRENT WEEK (GET operation) ---
-    /**
-     * Retrieves the existing weekly sentiment summary for the current week (Monday-Sunday).
-     * This is the first method the frontend should call.
-     */
     public Optional<JournalSentimentModel> readWeeklySentiment(String email) {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY);
@@ -49,8 +44,7 @@ public class JournalSentimentService {
     }
     // --- END NEW METHOD ---
 
- public JournalSentimentModel ComputeAndSaveWeeklySentiment(String email) {
-
+   public JournalSentimentModel ComputeAndSaveWeeklySentiment(String email) {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY);
         LocalDate sunday = today.with(DayOfWeek.SUNDAY);
@@ -58,33 +52,30 @@ public class JournalSentimentService {
         String weekStart = monday.format(DateTimeFormatter.ISO_LOCAL_DATE);
         String weekEnd = sunday.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
+        // 1. Fetch latest entries (including your recent edits)
         List<JournalEntry> last7Days = JournalWeekRepository.findByEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
-        System.out.println("📘 Found " + last7Days.size() + " journal entries for " + email);
-
-
-        Optional<JournalSentimentModel> existing = JournalSentimentRepository
-        .findByEmailAndWeekStart(email, weekStart);
-
-        if (existing.isPresent()) {
-            // Data already exists, just return the existing data without re-computing.
-            // This is an additional layer of safety if the frontend accidentally calls POST.
-            return existing.get();
-        }
-
+        
+        // 2. Perform fresh analysis using the updated content
+        // This will recalculate the Majority Label and the Signed Average Score
         JournalWeekSummaryDTO weeklySentiment = JournalWeekSummaryAPI.getSentiment(last7Days);
 
-        JournalSentimentModel entity = new JournalSentimentModel();
+        // 3. Find if a summary already exists for this week
+        JournalSentimentModel entity = JournalSentimentRepository
+            .findByEmailAndWeekStart(email, weekStart)
+            .orElse(new JournalSentimentModel()); // Update existing if found, else create new
+
+        // 4. Overwrite fields with the NEW re-calculated values
         entity.setEmail(email);
         entity.setWeekStart(weekStart);
-        entity.setSentimentLabel(weeklySentiment.getLabel());
-        entity.setSentimentScore(weeklySentiment.getScore());
+        entity.setSentimentLabel(weeklySentiment.getLabel()); // Weekly Highlight
+        entity.setSentimentScore(weeklySentiment.getScore()); // Signed Average
 
+        // 5. Save the updated summary to the database
         JournalSentimentModel saved = JournalSentimentRepository.save(entity);
-
         writeSentimentToFile(saved);
 
         return saved;
-        }
+    }
 
     // NOTE: This method is now redundant for the frontend's weekly summary page,
     // but is left here in case it's used elsewhere.

@@ -1,19 +1,15 @@
 package com.example.smartjournaling.backend.dao;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.example.smartjournaling.backend.dto.JournalWeekSummaryDTO;
 import com.example.smartjournaling.backend.model.JournalEntry;
 import com.example.smartjournaling.backend.util.API;
-
-import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Value;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -29,52 +25,56 @@ public class JournalWeekSummaryAPI {
 ;
     
 
-    public JournalWeekSummaryDTO  getSentiment(List<JournalEntry> last7days){
+        public JournalWeekSummaryDTO getSentiment(List<JournalEntry> last7days) {
         if (last7days == null || last7days.isEmpty()) {
             return new JournalWeekSummaryDTO("NO_DATA", 0.0);
         }
 
-        List<JournalWeekSummaryDTO> dailyResults = new ArrayList<>();
-        System.out.println("🟢 Starting sentiment analysis for last 7 days...");
+        int positiveCount = 0;
+        int negativeCount = 0;
+        double totalSignedScore = 0.0;
+        int validEntries = 0;
+
         for (JournalEntry entry : last7days) {
-            try{
-                //Request body
-
+            try {
                 String jsonBody = "{\"inputs\":\"" + escapeJson(entry.getContent()) + "\"}";
-                System.out.println("Sending to API: " + jsonBody);
-
-                //Make API call
                 String response = api.post(API_URL, bearerToken, jsonBody);
-                System.out.println("API response: " + response);
-
-                //Parse response
+                
                 JsonNode root = objectMapper.readTree(response);
                 JsonNode result = root.get(0).get(0);
 
-                String label = result.get("label").asText();
-                double score = result.get("score").asDouble();
+                String label = result.get("label").asText(); // e.g., "POSITIVE" or "NEGATIVE"
+                double score = result.get("score").asDouble(); // Confidence (e.g., 0.98)
 
-                dailyResults.add(new JournalWeekSummaryDTO(label, score));
+                // Logic: If label is NEGATIVE, make the score negative for the average
+                if (label.equalsIgnoreCase("POSITIVE")) {
+                    positiveCount++;
+                    totalSignedScore += score;
+                } else if (label.equalsIgnoreCase("NEGATIVE")) {
+                    negativeCount++;
+                    totalSignedScore -= score; // Put a '-' in front of the value
+                }
+                validEntries++;
+
             } catch (Exception e) {
                 e.printStackTrace();
-                dailyResults.add(new JournalWeekSummaryDTO("ERROR", 0.0));
             }
         }
 
-        double avgScore = dailyResults.stream()
-                .filter(dto -> !dto.getLabel().equals("ERROR"))
-                .mapToDouble(JournalWeekSummaryDTO::getScore)
-                .average()
-                .orElse(0.0);
+        // Determine Weekly Highlight Label
+        String weeklyLabel;
+        if (positiveCount > negativeCount) {
+            weeklyLabel = "POSITIVE";
+        } else if (negativeCount > positiveCount) {
+            weeklyLabel = "NEGATIVE";
+        } else {
+            weeklyLabel = "TIE"; // Handle the same number of pos/neg
+        }
 
-        String majorityLabel = dailyResults.stream()
-                .collect(Collectors.groupingBy(JournalWeekSummaryDTO::getLabel, Collectors.counting()))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse("NO_DATA");
+        // Calculate Signed Average
+        double avgScore = (validEntries > 0) ? (totalSignedScore / validEntries) : 0.0;
 
-        return new JournalWeekSummaryDTO(majorityLabel, avgScore);
+        return new JournalWeekSummaryDTO(weeklyLabel, avgScore);
     }
 
     private String escapeJson(String text) {

@@ -64,4 +64,9 @@ public WeatherModel fetchAndSaveTodayWeather(String location) {
         // Since we retrieve the existing ID, it performs an UPDATE.
     return repo.save(entity);
     }
+
+    public Optional<WeatherModel> getWeatherForDate(String location, String date) {
+    // Uses the existing findTopByLocationNameAndDateOrderByIdDesc in WeatherRepository
+    return repo.findTopByLocationNameAndDateOrderByIdDesc(location, date);
+    }
 }

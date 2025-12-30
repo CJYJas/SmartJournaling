@@ -93,7 +93,7 @@ public class WeeklySummaryPage {
         moodTimelineContainer = createMoodTimeline();
         
         // Weather history container
-        weatherHistoryContainer = createWeatherHistory(); // Modified to return single VBox container
+        weatherHistoryContainer = createWeatherHistory(); 
         
         mainContent.getChildren().addAll(titleSection, statsCards, moodTimelineContainer, weatherHistoryContainer);
         
@@ -125,7 +125,7 @@ public class WeeklySummaryPage {
         Text title = new Text("Weekly Summary");
         title.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
         
-        // Date range label (will be updated)
+        // Date range label
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(6);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d");
@@ -139,9 +139,6 @@ public class WeeklySummaryPage {
         return topBar;
     }
 
-    /**
-     * Creates a stat card, updates the card's data dynamically in updateStatCards().
-     */
     private VBox createStatCard(String title, String value, String emoji) {
         VBox card = new VBox(10);
         card.getStyleClass().add("summary-stat-card");
@@ -155,27 +152,20 @@ public class WeeklySummaryPage {
         cardTitle.setStyle("-fx-fill: #888; -fx-font-size: 12px; -fx-font-weight: bold;");
         
         Text cardValue = new Text(value);
-        cardValue.getProperties().put("card-value", "true"); // Marker for updating later
+        cardValue.getProperties().put("card-value", "true"); 
         cardValue.setStyle("-fx-fill: #6a4c93; -fx-font-size: 16px; -fx-font-weight: bold;");
         
         card.getChildren().addAll(icon, cardTitle, cardValue);
         return card;
     }
     
-    /**
-     * Updates the content of the top three summary cards.
-     */
     private void updateStatCards() {
-        // FIX: Derive entryCount from dailyMoodData size
-        // We count entries where the label is not 'N/A' (meaning journal data was found)
         long actualEntries = dailyMoodData.stream().filter(d -> !d.getOrDefault("label", "N/A").equals("N/A")).count();
         String entryCount = actualEntries + " of 7 days";
         
-        // FIX: Derive weeklyHighlight from the fetched weekly sentiment label
         String highlight = weeklySummaryData.getOrDefault("weeklyHighlight", "N/A");
         String avgMood = weeklySummaryData.getOrDefault("avgMood", "N/A");
 
-        // Helper to find the Text node by index and update its value
         updateCardValue(highlightCard, highlight, getWeeklyHighlightEmoji(highlight));
         updateCardValue(entriesCard, entryCount, "📝");
         updateCardValue(avgMoodCard, avgMood, "💚");
@@ -192,7 +182,6 @@ public class WeeklySummaryPage {
         }
     }
 
-
     private VBox createMoodTimeline() {
         VBox section = new VBox(15);
         section.setAlignment(Pos.CENTER);
@@ -200,7 +189,6 @@ public class WeeklySummaryPage {
         Text sectionTitle = new Text("Mood Fluctuations");
         sectionTitle.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
         
-        // Timeline container (Placeholder)
         HBox timeline = new HBox(15);
         timeline.setAlignment(Pos.CENTER);
         timeline.getStyleClass().add("timeline-container");
@@ -212,15 +200,11 @@ public class WeeklySummaryPage {
         return section;
     }
     
-    /**
-     * Populates the mood timeline based on fetched daily data.
-     */
     private void populateMoodTimeline() {
         HBox timeline = new HBox(15);
         timeline.setAlignment(Pos.CENTER);
         timeline.getStyleClass().add("timeline-container");
         
-        // Check if data is truly empty or just unparsed due to failure
         if (dailyMoodData.isEmpty() || (dailyMoodData.size() > 0 && dailyMoodData.get(0).get("label") == null)) {
              timeline.getChildren().add(new Text("No mood data available for the past week."));
         } else {
@@ -229,18 +213,16 @@ public class WeeklySummaryPage {
                     day.getOrDefault("dayName", "N/A"),
                     day.getOrDefault("label", "N/A"),
                     day.getOrDefault("emoji", "😐"),
-                    day.getOrDefault("color", "#d3d3d3") // Default gray for N/A
+                    day.getOrDefault("color", "#d3d3d3") 
                  );
                  timeline.getChildren().add(dayCard);
              }
         }
         
-        // Replace placeholder
         moodTimelineContainer.getChildren().remove(1);
         moodTimelineContainer.getChildren().add(timeline);
     }
     
-
     private VBox createMoodDayCard(String dayName, String mood, String emoji, String color) {
         VBox card = new VBox(8);
         card.getStyleClass().add("mood-day-card");
@@ -268,7 +250,6 @@ public class WeeklySummaryPage {
         Text sectionTitle = new Text("Weather History");
         sectionTitle.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
         
-        // Weather container (Placeholder - will be replaced by updateWeatherSummaryCard)
         VBox summaryContainer = new VBox(10);
         summaryContainer.setAlignment(Pos.CENTER);
         summaryContainer.getChildren().add(new Text("Loading Weather Summary..."));
@@ -277,9 +258,6 @@ public class WeeklySummaryPage {
         return section;
     }
     
-    /**
-     * Populates the weather history display using the single aggregate summary.
-     */
     private void populateWeatherHistory() {
         VBox container = (VBox) weatherHistoryContainer.getChildren().get(1);
         container.getChildren().clear();
@@ -288,7 +266,7 @@ public class WeeklySummaryPage {
         String icon = convertWeatherIcon(summary);
         
         VBox weatherCard = new VBox(15);
-        weatherCard.getStyleClass().add("summary-stat-card"); // Reuse stat card styling
+        weatherCard.getStyleClass().add("summary-stat-card"); 
         weatherCard.setPrefWidth(300);
         weatherCard.setAlignment(Pos.CENTER);
         weatherCard.setPadding(new Insets(20));
@@ -315,23 +293,24 @@ public class WeeklySummaryPage {
             email = "guest@example.com"; 
         }
         
+        // AUTO-UPDATE FIX: Clear cache so edits in JournalPage are reflected
+        dailySentimentCache.clear();
+        weeklySummaryInitialized = false;
+
         // 1. Retrieve Weekly Summary Data (GET call first)
         boolean weeklyParsed = false;
         try {
             String resp = api.getWeeklySentiment(email);
-            System.out.println("DEBUG: Weekly Summary Response: " + resp);
             weeklyParsed = parseWeeklySummary(resp);
         } catch (Exception e) {
             System.err.println("Failed to retrieve weekly summary: " + e.getMessage());
         }
 
-        // 2. Only if missing, compute once and re-fetch (avoid duplicate creation on every load)
+        // 2. Compute if missing
         if (!weeklyParsed && !weeklySummaryInitialized) {
             try {
-                String computeResp = api.computeWeeklySentiment(email);
-                System.out.println("DEBUG: Weekly Compute Response (on-demand): " + computeResp);
+                api.computeWeeklySentiment(email);
                 String resp = api.getWeeklySentiment(email);
-                System.out.println("DEBUG: Weekly Summary Response (after compute): " + resp);
                 weeklyParsed = parseWeeklySummary(resp);
             } catch (Exception e) {
                 System.err.println("Failed to compute/retrieve weekly summary: " + e.getMessage());
@@ -339,29 +318,21 @@ public class WeeklySummaryPage {
         }
         weeklySummaryInitialized = weeklySummaryInitialized || weeklyParsed;
 
-        // 3. Fetch Daily Moods for Timeline (7 individual POST calls, CACHED)
+        // 3. Fetch Daily Moods for Timeline
         List<String> dates = generateLastSevenDays();
         List<Map<String, String>> fetchedDailyMoods = new ArrayList<>();
 
         for (String date : dates) {
             Map<String, String> moodData;
             
-            // FIX: Check cache first to prevent redundant POST calls/DB writes.
             if (dailySentimentCache.containsKey(date)) {
                 moodData = dailySentimentCache.get(date);
             } else {
                 try {
-                    // Call the single-day POST /journal/analyze endpoint for each day
                     String resp = api.getSentimentAnalysis(email, date);
-                    System.out.println("DEBUG: Daily Moods Response for " + date + ": " + resp);
-                    
-                    // Parse the single object response and save to cache
                     moodData = parseSingleDailyMood(resp, date);
                     dailySentimentCache.put(date, moodData);
-
                 } catch (Exception e) {
-                    System.err.println("Failed to fetch daily mood for " + date + ": " + e.getMessage());
-                    // Add a blank/N/A map for the failed day to maintain the 7-day structure
                     moodData = initializeSingleDailyMood(date);
                 }
             }
@@ -370,20 +341,16 @@ public class WeeklySummaryPage {
         this.dailyMoodData = fetchedDailyMoods;
         populateMoodTimeline();
         
-        // 4. Fetch Weather History (Single GET call to correct endpoint)
+        // 4. Fetch Weather History 
         try {
-            // FIX: Calling the correct controller endpoint: /weather/weekSummary
             String resp = api.getWeeklyWeatherSummary(); 
-            System.out.println("DEBUG: Weather History Response: " + resp);
             parseWeatherHistory(resp); 
             populateWeatherHistory();
         } catch (Exception e) {
-             System.err.println("Failed to fetch weather history: " + e.getMessage());
              this.dailyWeatherData.clear();
              populateWeatherHistory();
         }
         
-        // FINAL UI UPDATE (Relies on all data structures being populated)
         updateStatCards();
     }
     
@@ -409,15 +376,10 @@ public class WeeklySummaryPage {
         return dayMap;
     }
 
-    /**
-     * Parses the single object response from the daily /journal/analyze endpoint.
-     */
     private Map<String, String> parseSingleDailyMood(String jsonResp, String dateKey) {
         Map<String, String> dayMap = initializeSingleDailyMood(dateKey);
-        
         if (jsonResp == null || jsonResp.isBlank() || jsonResp.startsWith("Error")) return dayMap;
         
-        // Keys: "sentimentlabel" and "sentimentscore" (based on debug output)
         String label = extractJsonStringValue(jsonResp, "sentimentlabel"); 
         String score = extractJsonNumberValue(jsonResp, "sentimentscore"); 
 
@@ -430,150 +392,67 @@ public class WeeklySummaryPage {
         return dayMap;
     }
 
-    /**
-     * Parses the response from /journal/weekly-sentiment.
-     */
     private boolean parseWeeklySummary(String jsonResp) {
-        if (jsonResp == null || jsonResp.isBlank() || jsonResp.startsWith("Error")) {
-             System.err.println("Parsing failed: Response is null, empty, or error.");
-             return false;
-        }
+        if (jsonResp == null || jsonResp.isBlank() || jsonResp.startsWith("Error")) return false;
         
-        // Keys are derived from the observed response: "sentimentLabel" and "sentimentScore"
         String weeklySentimentLabel = extractJsonStringValue(jsonResp, "sentimentLabel"); 
-        String avgScore = extractJsonNumberValue(jsonResp, "sentimentScore");
+        String avgScoreStr = extractJsonNumberValue(jsonResp, "sentimentScore");
         
-        // 1. Set Weekly Highlight based on the main sentiment label
-        weeklySummaryData.put("weeklyHighlight", weeklySentimentLabel);
-        
-        // 2. Calculate and set Avg Mood
         try {
-            double val = Double.parseDouble(avgScore);
+            double val = Double.parseDouble(avgScoreStr);
+            weeklySummaryData.put("weeklyHighlight", weeklySentimentLabel);
+            
+            // SIGNED AVERAGE FIX: Display percentage based on signed score
             String avgMoodPercentage = String.format("%.0f%%", val * 100);
-            String label = weeklySentimentLabel; // Use the direct label from backend
-            weeklySummaryData.put("avgMood", label + " - " + avgMoodPercentage);
+            weeklySummaryData.put("avgMood", weeklySentimentLabel + " (" + avgMoodPercentage + ")");
         } catch (NumberFormatException e) {
-             weeklySummaryData.put("avgMood", "N/A (Score Parse Failed)");
-             System.err.println("Error parsing avgMood score: " + avgScore);
+            weeklySummaryData.put("avgMood", "N/A");
         }
-        
-        System.out.println("Weekly Summary Parsed: " + weeklySummaryData);
-           return true;
+        return true;
     }
     
-    /**
-     * Parses the response from /weather/weekSummary (WeatherWeekSummaryModel).
-     * Extracts the single aggregate weathersummary for display.
-     */
     private void parseWeatherHistory(String jsonResp) {
-        if (jsonResp == null || jsonResp.isBlank() || jsonResp.startsWith("Error")) {
-             System.err.println("Parsing Weather History failed: Response is null, empty, or error.");
-             return;
-        }
-        
-        // Extract the single weekly summary returned by the backend (e.g., "Ribut petir di beberapa tempat")
+        if (jsonResp == null || jsonResp.isBlank() || jsonResp.startsWith("Error")) return;
         String weatherSummary = extractJsonStringValue(jsonResp, "weathersummary");
-        
-        if (weatherSummary.equals("N/A")) {
-            System.err.println("Weather History Parsing: Could not find 'weathersummary' in the response.");
-        }
-        
-        // Store the aggregate summary in the main data map
         weeklySummaryData.put("weatherSummary", weatherSummary);
     }
     
-    private Map<String, Map<String, String>> initializeDailyWeatherMap(List<String> dates) {
-        Map<String, Map<String, String>> map = new HashMap<>();
-        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEE");
-
-        for (String dateKey : dates) {
-            LocalDate date = LocalDate.parse(dateKey, DateTimeFormatter.ISO_LOCAL_DATE);
-            String dayName = date.format(dayFormatter);
-            Map<String, String> dayMap = new HashMap<>();
-            dayMap.put("dayName", dayName);
-            dayMap.put("dateKey", dateKey);
-            dayMap.put("icon", "❓");
-            dayMap.put("temp", "N/A"); 
-            map.put(dateKey, dayMap);
-        }
-        return map;
-    }
-    
-    // --- Crude JSON Extraction Helpers (REFINED FOR CASE-INSENSITIVITY) ---
-
     private String extractJsonStringValue(String json, String key) {
-        // Search for the key case-insensitively using regex principles
         int idx = json.toLowerCase().indexOf(key.toLowerCase());
         if (idx == -1) return "N/A";
-        
-        // Find the index of the colon that follows the found key substring
         int keyEnd = json.indexOf(":", idx + key.length());
         if (keyEnd == -1) return "N/A";
-        
-        int start = keyEnd + 1;
-        int actualStart = start;
-        
-        // Find the index of the first non-whitespace character after the colon
-        while (actualStart < json.length() && Character.isWhitespace(json.charAt(actualStart))) {
-            actualStart++;
-        }
-        
-        // Handle quoted value (most common for strings)
+        int actualStart = keyEnd + 1;
+        while (actualStart < json.length() && Character.isWhitespace(json.charAt(actualStart))) actualStart++;
         if (actualStart < json.length() && json.charAt(actualStart) == '"') {
-             actualStart++; // Skip starting quote
+             actualStart++; 
              int end = json.indexOf("\"", actualStart);
-             if (end != -1) {
-                 return json.substring(actualStart, end).replace("\\\"", "\"").trim();
-             }
+             if (end != -1) return json.substring(actualStart, end).replace("\\\"", "\"").trim();
         } else {
-             // Handle unquoted values (numbers or booleans)
              int commaEnd = json.indexOf(",", actualStart);
              int braceEnd = json.indexOf("}", actualStart);
-             
-             int end = -1;
-             if (commaEnd != -1 && (braceEnd == -1 || commaEnd < braceEnd)) {
-                 end = commaEnd;
-             } else if (braceEnd != -1) {
-                 end = braceEnd;
-             }
-
-             if (end != -1) {
-                 return json.substring(actualStart, end).trim();
-             }
+             int end = (commaEnd != -1 && (braceEnd == -1 || commaEnd < braceEnd)) ? commaEnd : braceEnd;
+             if (end != -1) return json.substring(actualStart, end).trim();
         }
         return "N/A";
     }
     
     private String extractJsonNumberValue(String json, String key) {
-        String searchKey = "\"" + key + "\"";
         int idx = json.toLowerCase().indexOf(key.toLowerCase());
         if (idx == -1) return "0.0"; 
-        
         int keyEnd = json.indexOf(":", idx + key.length());
         if (keyEnd == -1) return "0.0";
-
-        int valueStart = keyEnd + 1;
-        int scoreValueStart = valueStart;
+        int scoreValueStart = keyEnd + 1;
+        while (scoreValueStart < json.length() && Character.isWhitespace(json.charAt(scoreValueStart))) scoreValueStart++;
+        if (scoreValueStart < json.length() && json.charAt(scoreValueStart) == '"') scoreValueStart++; 
         
-        // Skip leading whitespace and quotes
-        while (scoreValueStart < json.length() && Character.isWhitespace(json.charAt(scoreValueStart))) {
-            scoreValueStart++;
-        }
-        if (scoreValueStart < json.length() && json.charAt(scoreValueStart) == '"') {
-            scoreValueStart++; // Skip starting quote
-        }
-        
-        // Find the end token (comma or brace, ignoring closing quote if present)
         int commaEnd = json.indexOf(",", scoreValueStart);
         int braceEnd = json.indexOf("}", scoreValueStart);
         int quoteEnd = json.indexOf("\"", scoreValueStart);
-        
-        int end = json.length(); // Default to end of string
-        
+        int end = json.length(); 
         if (commaEnd != -1) end = Math.min(end, commaEnd);
         if (braceEnd != -1) end = Math.min(end, braceEnd);
         if (quoteEnd != -1 && quoteEnd < end) end = quoteEnd; 
-
 
         if (end != json.length() && scoreValueStart < end) {
             return json.substring(scoreValueStart, end).replace("\"", "").trim();
@@ -581,7 +460,6 @@ public class WeeklySummaryPage {
         return "0.0";
     }
     
-    // --- UI Helper Logic (Mood/Color/Icon Mapping) ---
     private String getMoodEmoji(String label) {
         return switch (label.toUpperCase()) {
             case "POSITIVE" -> "😊";
@@ -600,19 +478,22 @@ public class WeeklySummaryPage {
 
     private String getMoodColor(String label) {
         return switch (label.toUpperCase()) {
-            case "POSITIVE" -> "#95e1d3"; // Light Teal/Green
-            case "NEGATIVE" -> "#f38181"; // Light Red
-            case "MIXED" -> "#ffd3b6";    // Light Orange/Pink
-            case "NEUTRAL" -> "#a8e6cf";  // Mint Green
-            default -> "#d3d3d3";        // Gray
+            case "POSITIVE" -> "#95e1d3"; 
+            case "NEGATIVE" -> "#f38181"; 
+            case "MIXED" -> "#ffd3b6";    
+            case "NEUTRAL" -> "#a8e6cf";  
+            default -> "#d3d3d3";        
         };
     }
     
     private String convertWeatherIcon(String backendSummary) {
-         if (backendSummary.toLowerCase().contains("sunny") || backendSummary.toLowerCase().contains("clear")) return "☀️";
-         if (backendSummary.toLowerCase().contains("cloudy") || backendSummary.toLowerCase().contains("overcast")) return "☁️";
-         if (backendSummary.toLowerCase().contains("rain") || backendSummary.toLowerCase().contains("drizzle")) return "🌧️";
-         if (backendSummary.toLowerCase().contains("thunderstorm")) return "⛈️";
-         return "🌤️"; // Default for partly cloudy/unknown
+        if (backendSummary == null) return "🌤️";
+        String s = backendSummary.toLowerCase();
+        // WEATHER ICON FIX: Matches specific Malay weather keywords
+        if (s.contains("tiada hujan") || s.contains("clear")) return "☀️";
+        if (s.contains("mendung") || s.contains("overcast")) return "☁️";
+        if (s.contains("hujan di beberapa tempat") || s.contains("drizzle")) return "🌧️";
+        if (s.contains("ribut petir")) return "⛈️";
+        return "🌤️"; 
     }
 }

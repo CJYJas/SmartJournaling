@@ -86,7 +86,7 @@ public class App extends Application {
     private void setScene(Parent root, double width, double height) {
         Scene scene = new Scene(root, width, height);
         try {
-            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
         } catch (Exception e) {
             System.err.println("Error loading CSS: " + e.getMessage());
         }

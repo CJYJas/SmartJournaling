@@ -121,6 +121,18 @@ public class ApiClient {
             return "Error: Connection failed";
         }
     }
+
+    public String updateJournalForDate(String email, String date, String content) {
+        try {
+            String escapedContent = escapeJsonValue(content);
+            String json = String.format("{\"email\":\"%s\",\"date\":\"%s\",\"content\":\"%s\"}",
+                    email, date, escapedContent);
+            return sendJsonPostRequest("/journal/update", json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: Failed to update journal";
+        }
+    }
     
     // --- Sentiment Endpoints ---
     public String getSentimentAnalysis(String email, String date) {

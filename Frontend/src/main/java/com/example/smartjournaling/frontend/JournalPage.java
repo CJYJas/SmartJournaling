@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -30,6 +31,7 @@ public class JournalPage {
     private ListView<String> dateListView;
     private VBox entryView;
     private TextArea entryTextArea;
+    private DatePicker datePicker;
     
     // Class fields for dynamic UI updates
     private Label weatherLabel;
@@ -112,8 +114,31 @@ public class JournalPage {
         sidebar.setPrefWidth(200);
         sidebar.setPadding(new Insets(20));
         
-        Text sidebarTitle = new Text("Dates");
+        Text sidebarTitle = new Text("Select Date");
         sidebarTitle.setStyle("-fx-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        
+        // Date Picker for selecting any past date
+        datePicker = new DatePicker(LocalDate.now());
+        datePicker.getStyleClass().add("date-picker");
+        datePicker.setPrefWidth(160);
+        // Disable future dates
+        datePicker.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(empty || item.isAfter(LocalDate.now()));
+            }
+        });
+        
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                loadEntry(newVal.toString());
+            }
+        });
+        
+        // Quick access to last 7 days
+        Text quickAccessTitle = new Text("Last 7 Days");
+        quickAccessTitle.setStyle("-fx-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-opacity: 0.8;");
         
         dateListView = new ListView<>();
         dateListView.getStyleClass().add("date-list");
@@ -133,12 +158,13 @@ public class JournalPage {
         dateListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 String dateKey = newVal.equals("Today") ? LocalDate.now().toString() : newVal;
+                datePicker.setValue(LocalDate.parse(dateKey));
                 loadEntry(dateKey);
             }
         });
         
         VBox.setVgrow(dateListView, Priority.ALWAYS);
-        sidebar.getChildren().addAll(sidebarTitle, dateListView);
+        sidebar.getChildren().addAll(sidebarTitle, datePicker, quickAccessTitle, dateListView);
         
         return sidebar;
     }
@@ -192,9 +218,13 @@ public class JournalPage {
         buttonBar.setAlignment(Pos.CENTER);
         
         createButton = new Button("Create Journal");
+        createButton.getStyleClass().add("button-primary");
         editButton = new Button("Edit Journal");
+        editButton.getStyleClass().add("button-primary");
         viewButton = new Button("View Journal");
+        viewButton.getStyleClass().add("button-secondary");
         saveButton = new Button("Save");
+        saveButton.getStyleClass().add("button-primary");
         
         createButton.setOnAction(e -> enableEditMode());
         editButton.setOnAction(e -> enableEditMode());
@@ -257,14 +287,24 @@ public class JournalPage {
 
     private void updateButtonVisibility(String entry, boolean isToday) {
         boolean hasContent = entry != null && !entry.isEmpty();
+        
+        // Show create button only for today with empty entry
         createButton.setVisible(!hasContent && isToday);
         createButton.setManaged(!hasContent && isToday);
-        editButton.setVisible(hasContent && isToday);
-        editButton.setManaged(hasContent && isToday);
-        viewButton.setVisible(hasContent && isToday);
-        viewButton.setManaged(hasContent && isToday);
+        
+        // Show edit button for past dates or today with content
+        editButton.setVisible(hasContent || !isToday);
+        editButton.setManaged(hasContent || !isToday);
+        
+        // View button hidden since entries can be edited
+        viewButton.setVisible(false);
+        viewButton.setManaged(false);
+        
         saveButton.setVisible(false);
         saveButton.setManaged(false);
+        
+        // Ensure text area is not editable by default
+        entryTextArea.setEditable(false);
     }
 
     private void enableEditMode() {
@@ -286,8 +326,10 @@ public class JournalPage {
         if (email == null || email.isBlank() || email.equals("Guest")) email = "guest@example.com";
 
         try {
-            // 1. Save the individual edited entry to 'sentiment_analysis'
-            api.addOrEditTodayJson(email, selectedDate, content);
+            journalEntries.put(selectedDate, content);
+            
+            // 1. Save journal for the selected date (works for any date, not just today)
+            api.updateJournalForDate(email, selectedDate, content);
             
             // 2. TRIGGER WEEKLY UPDATE: This calls the service logic above
             // This ensures 'journal_weekly_sentiment' is now in sync with your edit

@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>17.0.6</javafx.version>
+        <javafx.version>21.0.1</javafx.version>
     </properties>
 
     <dependencies>
@@ -43,6 +43,9 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.example.smartjournaling.App</mainClass>
+                    <options>
+                        <option>-Djava.util.logging.config.file=logging.properties</option>
+                    </options>
                 </configuration>
             </plugin>
         </plugins>

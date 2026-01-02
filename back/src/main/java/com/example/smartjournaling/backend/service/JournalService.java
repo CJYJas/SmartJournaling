@@ -48,4 +48,15 @@ public class JournalService {
             return "New journal created for today!";
         }
     }
+
+    public String addOrEditJournal(String email, String date, String content) {
+        Optional<JournalEntry> optional = getJournalByDate(email, date);
+        if (optional.isPresent()) {
+            updateJournal(email, date, content);
+            return "Journal updated for " + date;
+        } else {
+            createJournal(email, date, content);
+            return "New journal created for " + date;
+        }
+    }
 }

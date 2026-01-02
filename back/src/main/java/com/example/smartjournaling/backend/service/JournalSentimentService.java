@@ -47,13 +47,19 @@ public class JournalSentimentService {
    public JournalSentimentModel ComputeAndSaveWeeklySentiment(String email) {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY);
-        LocalDate sunday = today.with(DayOfWeek.SUNDAY);
+        // Fix: Ensure Sunday is in the future if today is before Sunday
+        LocalDate sunday = monday.plusDays(6);
 
         String weekStart = monday.format(DateTimeFormatter.ISO_LOCAL_DATE);
         String weekEnd = sunday.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
         // 1. Fetch latest entries (including your recent edits)
         List<JournalEntry> last7Days = JournalWeekRepository.findByEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
+        
+        // Debug logging
+        System.out.println("🔍 Computing weekly sentiment for: " + email);
+        System.out.println("📅 Week range: " + weekStart + " to " + weekEnd);
+        System.out.println("📝 Found " + last7Days.size() + " entries");
         
         // 2. Perform fresh analysis using the updated content
         // This will recalculate the Majority Label and the Signed Average Score

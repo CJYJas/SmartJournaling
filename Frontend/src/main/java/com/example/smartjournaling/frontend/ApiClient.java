@@ -98,15 +98,17 @@ public class ApiClient {
     }
 
 
-    // --- Journal Endpoints ---
     public String getJournalByDate(String email, String date) {
         try {
-            return sendGetRequest("/journal/" + URLEncoder.encode(email, StandardCharsets.UTF_8) + "/" + URLEncoder.encode(date, StandardCharsets.UTF_8));
+            String endpoint = "/journal/by-date?email=" + URLEncoder.encode(email, StandardCharsets.UTF_8)
+                            + "&date=" + URLEncoder.encode(date, StandardCharsets.UTF_8);
+            return sendGetRequest(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
     }
+
 
     public String addOrEditTodayJson(String email, String date, String content) {
         try {

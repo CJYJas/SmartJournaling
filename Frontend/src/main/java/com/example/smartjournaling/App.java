@@ -26,7 +26,9 @@ public class App extends Application {
     private JournalPage journalPage;
     private WeeklySummaryPage weeklySummaryPage;
     
+    private String currentUserEmail = "";
     private String currentUserName = "Guest";
+
 
     public static void main(String[] args) {
         launch(args);
@@ -64,12 +66,15 @@ public class App extends Application {
         setScene(signupView.getView(), 800, 600);
     }
 
-    public void showWelcome(String displayName) {
-        currentUserName = displayName;
+    public void showWelcome(String email, String displayName) {
+        this.currentUserEmail = email;
+        this.currentUserName = displayName;
+
         welcomeView.setDisplayName(displayName);
-        welcomeView.refreshData(); // Fetch weather/time
+        welcomeView.refreshData();
         setScene(welcomeView.getView(), 900, 650);
     }
+
     
     public void showJournalPage() {
         setScene(journalPage.getView(), 1000, 700);
@@ -79,9 +84,14 @@ public class App extends Application {
         setScene(weeklySummaryPage.getView(), 1000, 700);
     }
     
-    public String getCurrentUserName() {
+    public String getCurrentUserEmail() {
+        return currentUserEmail;
+    }
+
+    public String getCurrentUserDisplayName() {
         return currentUserName;
     }
+
 
     private void setScene(Parent root, double width, double height) {
         Scene scene = new Scene(root, width, height);

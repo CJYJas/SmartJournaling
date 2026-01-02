@@ -1,11 +1,17 @@
 package com.example.smartjournaling.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.smartjournaling.backend.model.JournalEntry;
 import com.example.smartjournaling.backend.service.JournalService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/journal")
@@ -15,17 +21,16 @@ public class JournalController {
     private JournalService journalService;
 
     // GET all journals for a user
-    @GetMapping("/{email}")
-    public List<JournalEntry> getAllJournals(@PathVariable String email) {
+    @GetMapping
+    public List<JournalEntry> getAllJournals(@RequestParam String email) {
         return journalService.getAllJournals(email);
     }
 
-    // GET journal by date
-    @GetMapping("/{email}/{date}")
-    public JournalEntry getJournalByDate(@PathVariable String email,
-                                         @PathVariable String date) {
-        return journalService.getJournalByDate(email, date)
-                .orElse(null);
+    @GetMapping("/by-date")
+    public JournalEntry getJournalByDate(
+            @RequestParam String email,
+            @RequestParam String date) {
+        return journalService.getJournalByDate(email, date).orElse(null);
     }
 
     // POST create or edit today's journal

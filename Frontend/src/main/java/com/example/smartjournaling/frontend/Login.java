@@ -1,10 +1,15 @@
 package com.example.smartjournaling.frontend;
 
 import com.example.smartjournaling.App;
+
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -70,7 +75,7 @@ public class Login {
                         String[] parts = response.split(", ");
                         if(parts.length > 1) displayName = parts[1];
                         
-                        app.showWelcome(displayName);
+                        app.showWelcome(emailField.getText(), displayName);
                     }
                 });
             }).start();

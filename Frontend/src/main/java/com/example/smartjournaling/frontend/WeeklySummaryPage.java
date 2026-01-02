@@ -119,8 +119,12 @@ public class WeeklySummaryPage {
         // Back button
         Button backButton = new Button("← Back to Home");
         backButton.getStyleClass().add("back-button");
-        backButton.setOnAction(e -> app.showWelcome(app.getCurrentUserName()));
-        
+        backButton.setOnAction(e ->
+        app.showWelcome(
+            app.getCurrentUserEmail(),
+            app.getCurrentUserDisplayName()
+            )
+        );
         // Page title
         Text title = new Text("Weekly Summary");
         title.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
@@ -288,7 +292,7 @@ public class WeeklySummaryPage {
     // --- Data Fetching and Parsing ---
     
     private void fetchAndDisplayData() {
-        String email = app.getCurrentUserName();
+        String email = app.getCurrentUserEmail();
         if (email == null || email.isBlank() || email.equals("Guest")) {
             email = "guest@example.com"; 
         }

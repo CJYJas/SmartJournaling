@@ -88,7 +88,13 @@ public class JournalPage {
         
         Button backButton = new Button("← Back to Home");
         backButton.getStyleClass().add("back-button");
-        backButton.setOnAction(e -> app.showWelcome(app.getCurrentUserName()));
+        backButton.setOnAction(e ->
+        app.showWelcome(
+            app.getCurrentUserEmail(),
+            app.getCurrentUserDisplayName()
+            )
+        );
+
         
         Text title = new Text("My Journal");
         title.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
@@ -205,8 +211,11 @@ public class JournalPage {
     private void loadEntry(String dateKey) {
         selectedDate = dateKey;
         String entry = journalEntries.get(dateKey);
-        String email = app.getCurrentUserName();
-        if (email == null || email.isBlank() || email.equals("Guest")) email = "guest@example.com";
+        String email = app.getCurrentUserEmail();
+        if (email == null || email.isBlank()) {
+            System.err.println("No logged-in user");
+            return;
+        }
 
         boolean contentFetched = false;
         try {
@@ -273,7 +282,7 @@ public class JournalPage {
 
     private void saveEntry() {
         String content = entryTextArea.getText();
-        String email = app.getCurrentUserName();
+        String email = app.getCurrentUserEmail();
         if (email == null || email.isBlank() || email.equals("Guest")) email = "guest@example.com";
 
         try {

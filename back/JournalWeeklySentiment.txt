@@ -93,3 +93,33 @@ Week Start: 2025-12-29
 Sentiment Label: TIE
 Sentiment Score: 0.0
 --------------------------------------------------
+Weekly Sentiment Summary for: Abu
+Week Start: 2025-12-29
+Sentiment Label: TIE
+Sentiment Score: 0.0
+--------------------------------------------------
+Weekly Sentiment Summary for: Abu
+Week Start: 2025-12-29
+Sentiment Label: POSITIVE
+Sentiment Score: 0.3250608642896016
+--------------------------------------------------
+Weekly Sentiment Summary for: Foo Bar
+Week Start: 2025-12-29
+Sentiment Label: POSITIVE
+Sentiment Score: 0.9995343685150146
+--------------------------------------------------
+Weekly Sentiment Summary for: Foo Bar
+Week Start: 2025-12-29
+Sentiment Label: POSITIVE
+Sentiment Score: 0.9995343685150146
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2025-12-29
+Sentiment Label: POSITIVE
+Sentiment Score: 0.9825953245162964
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2025-12-29
+Sentiment Label: POSITIVE
+Sentiment Score: 0.9119213819503784
+--------------------------------------------------

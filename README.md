@@ -52,11 +52,11 @@ SmartJournaling-main/
 │   │   ├── repository/
 │   │   ├── service/
 │   │   └── util/
-│   │       └── EnvLoader.java
 │   ├── src/main/resources/
 │   │   └── application.properties
 │   ├── pom.xml
 │   ├── UserData.txt
+|   |── JournalWeeklySentiment.txt
 │   ├── SmartJournal.db
 │   └── SmartJournal.sqbpro
 │
@@ -130,9 +130,10 @@ SmartJournaling-main/
 - Maven
 
 ### Setup
->Open one `Powershell`  terminal  
+>Open one `back`  terminal  
 Set the token there:
 ```
+cd back
 $env:HF_TOKEN="your_huggingface_token_here"
 ```
 

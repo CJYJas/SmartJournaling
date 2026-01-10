@@ -1,6 +1,9 @@
 com\example\smartjournaling\frontend\Main.class
+com\example\smartjournaling\frontend\WeeklySummaryPage.class
+com\example\smartjournaling\frontend\JournalPage.class
 com\example\smartjournaling\frontend\Signup.class
 com\example\smartjournaling\frontend\Login.class
+com\example\smartjournaling\frontend\JournalPage$1.class
 com\example\smartjournaling\App.class
 com\example\smartjournaling\frontend\ApiClient.class
 com\example\smartjournaling\frontend\Welcome.class

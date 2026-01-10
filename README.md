@@ -38,10 +38,11 @@ This project is developed for **WIX1002 Fundamentals of Programming** and fulfil
 SmartJournaling-main/
 │
 ├── Frontend/
-│   ├── src/main/java/com/example/smartjournaling/
-│   │   ├── App.java
-│   │   ├── frontend/
-│   │   └── model/
+│   ├── src/main/
+│   │   ├──java/com/example/smartjournaling/
+│   │   │  ├── frontend/
+│   │   │  └── App.java
+│   │   └──resources/         
 │   └── pom.xml
 │
 ├── back/
@@ -51,9 +52,12 @@ SmartJournaling-main/
 │   │   ├── repository/
 │   │   ├── service/
 │   │   └── util/
-│   │       └── EnvLoader.java
 │   ├── src/main/resources/
 │   │   └── application.properties
+│   ├── pom.xml
+│   ├── UserData.txt
+|   |── JournalWeeklySentiment.txt
+│   ├── SmartJournal.db
 │   └── SmartJournal.sqbpro
 │
 ├── .gitignore
@@ -99,20 +103,20 @@ SmartJournaling-main/
 ### Graphical User Interface (GUI)
 * Clean, user-friendly interface using JavaFX
 * Improved usability compared to CLI
-  
-### Layered Backend Architecture
-* Implements Controllers, Services, Repositories, DAOs, and DTOs
-* Follows real-world principles for better maintainability and scalability
 
-### Database-Oriented Persistence
-* Repository-based persistence enables efficient data querying
-* Optimized for generating weekly summaries
+### Relational Database (SQLite)
+* Normalized table design
+* Optimized weekly summary queries
 
 ### Secure Environment Handling
+* Password hashing
 * Uses `SecurityConfig.java` to enforce endpoint protection and controlled access to user data.
 * Sensitive API tokens stored using `.env`
-* `EnvLoader.java` reads environment variables safely
-* `.env` excluded using `.gitignore`
+* Sensitive data protected using `.gitignore`
+
+### Layered Backend Architecture
+* Implements Controllers, Services, Repositories, DAOs, and DTOs
+* Clean MVC structure for scalability & maintainability
 
 ### Modular Weekly Summary Design
 * Separates journal and weather data into modular components
@@ -126,18 +130,20 @@ SmartJournaling-main/
 - Maven
 
 ### Setup
-Create `.env` file:
+>Open one `back`  terminal  
+Set the token there:
 ```
-BEARER_TOKEN=hf_your_token_here
+cd back
+$env:HF_TOKEN="your_huggingface_token_here"
 ```
 
-Run backend:
+>Run backend:
 ```
 cd back
 mvn spring-boot:run
 ```
 
-Run frontend:
+>Run frontend:
 ```
 cd Frontend
 mvn javafx:run

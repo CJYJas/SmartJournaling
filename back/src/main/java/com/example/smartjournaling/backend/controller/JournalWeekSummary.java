@@ -1,6 +1,7 @@
 package com.example.smartjournaling.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.smartjournaling.backend.model.*;
 import com.example.smartjournaling.backend.service.JournalSentimentService;
@@ -22,10 +23,12 @@ public class JournalWeekSummary {
         return journalSentimentService.ComputeAndSaveWeeklySentiment(email);
     }
 
-    // Get latest weekly sentiment for user (email from query parameter)
+    // Get weekly sentiment for current week (email from query parameter)
     @GetMapping("/weekly-sentiment")
-    public JournalSentimentModel getLatestWeekSentiment(@RequestParam String email) {
-        return journalSentimentService.getLatestWeekSentiment(email);
+    public ResponseEntity<JournalSentimentModel> getWeeklySentiment(@RequestParam String email) {
+        return journalSentimentService.readWeeklySentiment(email)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
 

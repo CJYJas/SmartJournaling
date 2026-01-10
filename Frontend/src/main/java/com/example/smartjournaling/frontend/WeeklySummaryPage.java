@@ -301,26 +301,26 @@ public class WeeklySummaryPage {
         dailySentimentCache.clear();
         weeklySummaryInitialized = false;
 
-        // 1. Retrieve Weekly Summary Data (GET call first)
+        // 1. Force recomputation to pick up latest entries
         boolean weeklyParsed = false;
         try {
+            api.computeWeeklySentiment(email);
             String resp = api.getWeeklySentiment(email);
             weeklyParsed = parseWeeklySummary(resp);
         } catch (Exception e) {
-            System.err.println("Failed to retrieve weekly summary: " + e.getMessage());
+            System.err.println("Failed to compute weekly summary: " + e.getMessage());
         }
 
-        // 2. Compute if missing
-        if (!weeklyParsed && !weeklySummaryInitialized) {
+        // 2. Fallback: Try to retrieve if computation failed
+        if (!weeklyParsed) {
             try {
-                api.computeWeeklySentiment(email);
                 String resp = api.getWeeklySentiment(email);
                 weeklyParsed = parseWeeklySummary(resp);
             } catch (Exception e) {
-                System.err.println("Failed to compute/retrieve weekly summary: " + e.getMessage());
+                System.err.println("Failed to retrieve weekly summary: " + e.getMessage());
             }
         }
-        weeklySummaryInitialized = weeklySummaryInitialized || weeklyParsed;
+        weeklySummaryInitialized = weeklyParsed;
 
         // 3. Fetch Daily Moods for Timeline
         List<String> dates = generateLastSevenDays();

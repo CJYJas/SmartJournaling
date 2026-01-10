@@ -38,4 +38,10 @@ public class JournalController {
     public String addOrEditToday(@RequestBody JournalEntry body) {
         return journalService.addOrEditToday(body.getEmail(), body.getContent());
     }
+
+    // POST create or edit journal for any date
+    @PostMapping("/update")
+    public String addOrEditJournal(@RequestBody JournalEntry body) {
+        return journalService.addOrEditJournal(body.getEmail(), body.getDate(), body.getContent());
+    }
 }

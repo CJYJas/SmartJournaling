@@ -182,8 +182,8 @@ public class JournalPage {
         VBox weatherWidget = new VBox(5);
         weatherWidget.getStyleClass().add("smart-widget");
         weatherWidget.setAlignment(Pos.CENTER);
-        weatherIcon = new Label("☀️"); 
-        weatherIcon.setStyle("-fx-font-size: 32px;");
+        weatherIcon = new Label("☀"); 
+        weatherIcon.setStyle("-fx-font-size: 32px; -fx-font-family: 'Segoe UI Emoji';");
         weatherLabel = new Label("Loading weather...");
         weatherLabel.setStyle("-fx-text-fill: #6a4c93; -fx-font-weight: bold;");
         weatherWidget.getChildren().addAll(weatherIcon, weatherLabel);
@@ -383,7 +383,7 @@ public class JournalPage {
                 }
             } catch (Exception e) {
                 weatherLabel.setText("Weather N/A");
-                weatherIcon.setText("🌤️");
+                weatherIcon.setText("🌤");
             }
         }
 
@@ -410,13 +410,13 @@ public class JournalPage {
     }
 
     private String convertWeatherIcon(String backendSummary) {
-        if (backendSummary == null) return "🌤️";
+        if (backendSummary == null) return "🌤";
         String s = backendSummary.toLowerCase();
-        if (s.contains("tiada hujan") || s.contains("clear")) return "☀️";
-        if (s.contains("mendung") || s.contains("overcast")) return "☁️";
-        if (s.contains("hujan di beberapa tempat") || s.contains("drizzle")) return "🌧️";
-        if (s.contains("ribut petir")) return "⛈️";
-        return "🌤️";
+        if (s.contains("tiada hujan") || s.contains("clear")) return "☀";
+        if (s.contains("mendung") || s.contains("overcast")) return "☁";
+        if (s.contains("hujan di beberapa tempat") || s.contains("drizzle")) return "🌧";
+        if (s.contains("ribut petir")) return "⛈";
+        return "🌤";
     }
 
     // Crude JSON Helpers

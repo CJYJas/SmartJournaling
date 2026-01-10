@@ -165,5 +165,5 @@ We would like to extend our gratitude to:
 
 * Our team members:
   `Jasmine Chin Jia Yee` • `Josephine Ding Jie Yu` • `Ng Shao Ern`
-`Ng Geok Liu` • `Jasmine Chin Hui Ying` • `Ng Yue Qhi`
+`Ng Geok Liu` • `Jasmine Chin Ying Hui` • `Ng Yue Qhi`
   for commiting and collaborating throughout the project.

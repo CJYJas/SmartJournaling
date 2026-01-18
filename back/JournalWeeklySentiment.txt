@@ -9,3 +9,33 @@ Week Start: 2026-01-05
 Sentiment Label: NO_DATA
 Sentiment Score: 0.0
 --------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: TIE
+Sentiment Score: 0.0
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: TIE
+Sentiment Score: 0.03387348850568136
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: NEGATIVE
+Sentiment Score: -0.29893893003463745
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: TIE
+Sentiment Score: -0.037882983684539795
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: TIE
+Sentiment Score: -0.037882983684539795
+--------------------------------------------------
+Weekly Sentiment Summary for: s100201@student.fop
+Week Start: 2026-01-12
+Sentiment Label: TIE
+Sentiment Score: -0.037882983684539795
+--------------------------------------------------
